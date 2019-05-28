@@ -1,0 +1,62 @@
+<div class="container">
+    <a href="logout" class="btn btn-info" style="float:right">Logout</a>
+    <br></br>
+    <div class="jumbotron" style="background-image: url(https://suraenlinea.cdn.prismic.io/suraenlinea/92b8af2721625e19b65c45e6ffca69c1ef2213b5_bg-home.jpg); background-size: 100%;">
+        <div class="container">
+            <h1 style="color:white" class="display-2 text-center">Dojo Activity Center!</h1>
+            <p style="color:white" class="lead text-center">Welcome @ViewBag.User.FirstName</p>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Activity</th>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Duration (hrs)</th>
+                <th scope="col">Event Coordinator</th>
+                <th scope="col">No.of Particpants</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach(var e in ViewBag.Activities)
+                {
+                    bool Attending = false;
+                    foreach(var j in e.Attendees)
+                    {
+                        if(j.AUser == ViewBag.User)
+                        {
+                            Attending = true;
+                        }
+                    }
+                    if(e.ActivityStart > DateTime.Now)
+                    {
+                        <tr>
+                            <td><a href="/@e.DojoEventId">@e.ActivityTitle</a></td>
+                            <td>@e.ActivityStart</td>
+                            <td>@e.ActivityDuration</td>
+                            <td>@e.Coordinator.FirstName</td>
+                            <td>@e.Attendees.Count</td>
+                            @{
+                                if(e.Coordinator.UserId == ViewBag.User.UserId && Attending)
+                                {
+                                    <td><a href="/delete/@e.DojoEventId">Delete</a></td>
+                                }
+                                else if(Attending && e.Coordinator.UserId != ViewBag.User.UserId)
+                                {
+                                    <td><a href="/leave/@e.DojoEventId/@ViewBag.User.UserId">Leave</a></td>
+                                }
+                                else
+                                {
+                                    <td><a href="/join/@e.DojoEventId/@ViewBag.User.UserId">Join</a></td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+<a href="new" class="btn btn-primary">Add an Event!</a>
+</div>

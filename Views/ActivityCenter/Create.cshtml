@@ -1,0 +1,40 @@
+@model DojoEvent
+
+
+<a href="home" class="btn btn-primary" style="float:right;">Home</a>
+<a href="logout" class="btn btn-primary" style="float:right;">Logout</a><br>
+<br>
+<div class="container">
+       <div class="jumbotron" style="background-image: url(https://suraenlinea.cdn.prismic.io/suraenlinea/92b8af2721625e19b65c45e6ffca69c1ef2213b5_bg-home.jpg); background-size: 100%;">
+            <div class="container">
+                <h1 style="color:white" class="display-2 text-center">Create an Activity!</h1>
+            </div>
+        </div>
+    <div class="card">
+        <div class="card-body">
+            <form action="/generateActivity" method="post">
+                 <div class="form-group col-sm-6">
+                    <label>Title:</label>
+                    <span asp-validation-for="ActivityTitle"></span>
+                    <input type="text" name="ActivityTitle" class="form-control" />
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Time:</label>
+                    <span asp-validation-for="ActivityStart"></span>
+                    <input type="date" name="ActivityStart" class="form-control" />
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Duration:</label>
+                    <span asp-validation-for="ActivityDuration"></span>
+                    <input type="number" name="ActivityDuration" class="form-control" />
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Description:</label>
+                    <span asp-validation-for="ActivityDescription"></span>
+                    <input type="text" name="ActivityDescription" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-info">Create Activity</button>
+            </form>
+        </div>
+    </div>
+</div>

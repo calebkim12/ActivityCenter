@@ -1,0 +1,42 @@
+@model DojoEvent
+
+<a href="home" class="btn btn-primary" style="float:right;">Home</a>
+<a href="logout" class="btn btn-primary" style="float:right;">Logout</a><br>
+<br>
+
+<div class="container">
+    <div class="jumbotron" style="background-image: url(https://suraenlinea.cdn.prismic.io/suraenlinea/92b8af2721625e19b65c45e6ffca69c1ef2213b5_bg-home.jpg); background-size: 100%;">
+            <div class="container">
+                <h1 style="color:white" class="display-2 text-center">Event: @ViewBag.DojoEvent.ActivityTitle!</h1> 
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Event Coordinator: @ViewBag.DojoEvent.Coordinator.FirstName</h2>
+            <h2>Description: @ViewBag.DojoEvent.ActivityDescription</h2>
+            <h4>Participants:</h4>
+            <ul>
+                @{
+                    @foreach(var j in ViewBag.DojoEvent.Attendees)
+                    {
+                        <li>@j.AUser.FirstName</li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+        @{
+            if(@ViewBag.UserAttending.Contains(@ViewBag.DojoEvent.DojoEventId) && @ViewBag.User.UserId != @ViewBag.DojoEvent.Coordinator.UserId)
+            {
+                <a href="leave/@ViewBag.DojoEvent.DojoEventId/@ViewBag.User.UserId" class="btn btn-primary">Leave</a>
+            }
+            else if(@ViewBag.User.UserId != @ViewBag.DojoEvent.Coordinator.UserId)
+            {
+                <a href="join/@ViewBag.DojoEvent.DojoEventId/@ViewBag.User.UserId" class="btn btn-primary">Join Event!</a>
+            }
+            else if(@ViewBag.User.UserId == @ViewBag.DojoEvent.Coordinator.UserId)
+            {
+                <a href="delete/@ViewBag.DojoEvent.DojoEventId" class="btn btn-danger">Delete Event?</a>
+            }
+        }
+</div> 
